@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plateforme RH — Documentation produit</title>
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --surface: #ffffff;
+    --surface-2: #f0f0ec;
+    --text: #1d1d1b;
+    --muted: #5f5f5a;
+    --border: #dcdcd6;
+    --accent: #2f5d8a;
+    --accent-soft: #e6eef6;
+    --ok: #2e6b3e;
+    --ok-soft: #e5f1e8;
+    --warn: #8a5a12;
+    --warn-soft: #faf0dc;
+    --del: #8a2f2f;
+    --del-soft: #f8e6e6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161615;
+      --surface: #1f1f1d;
+      --surface-2: #2a2a27;
+      --text: #ebebe6;
+      --muted: #a3a39c;
+      --border: #3a3a36;
+      --accent: #8db7e0;
+      --accent-soft: #22303d;
+      --ok: #8fcf9e;
+      --ok-soft: #1f3125;
+      --warn: #e5bf7a;
+      --warn-soft: #362c1a;
+      --del: #e79c9c;
+      --del-soft: #3a2222;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161615; --surface: #1f1f1d; --surface-2: #2a2a27; --text: #ebebe6; --muted: #a3a39c;
+    --border: #3a3a36; --accent: #8db7e0; --accent-soft: #22303d; --ok: #8fcf9e; --ok-soft: #1f3125;
+    --warn: #e5bf7a; --warn-soft: #362c1a; --del: #e79c9c; --del-soft: #3a2222;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); max-width: 1240px; margin: 0 auto; }
+  nav.toc {
+    position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+    padding: 32px 20px; border-right: 1px solid var(--border); font-size: 14px;
+  }
+  nav.toc .brand { font-weight: 700; margin-bottom: 16px; }
+  nav.toc ol { list-style: none; padding: 0; margin: 0; }
+  nav.toc li { margin: 2px 0; }
+  nav.toc a { color: var(--muted); text-decoration: none; display: block; padding: 4px 8px; border-radius: 6px; }
+  nav.toc a:hover { background: var(--surface-2); color: var(--text); }
+  main { padding: 40px 48px 80px; min-width: 0; }
+  header.hero h1 { font-size: 2rem; line-height: 1.25; margin: 0 0 8px; }
+  header.hero p { color: var(--muted); margin: 0 0 24px; }
+  h2 { font-size: 1.5rem; margin: 56px 0 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  h3 { font-size: 1.2rem; margin: 32px 0 8px; }
+  h4 { font-size: 1rem; margin: 20px 0 6px; }
+  a { color: var(--accent); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
+  pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; overflow-x: auto; font-size: 13.5px; line-height: 1.5; }
+  pre code { background: none; padding: 0; }
+  .table-wrap { overflow-x: auto; margin: 12px 0 20px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--border); }
+  th { background: var(--surface-2); font-weight: 600; white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .callout { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .callout.ok { border-color: var(--ok); background: var(--ok-soft); }
+  .callout.warn { border-color: var(--warn); background: var(--warn-soft); }
+  .callout p { margin: 4px 0; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; margin-right: 4px; vertical-align: 1px; }
+  .tag.new { background: var(--ok-soft); color: var(--ok); }
+  .tag.mod { background: var(--warn-soft); color: var(--warn); }
+  .tag.del { background: var(--del-soft); color: var(--del); }
+  .changes { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin: 16px 0; }
+  .changes .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-size: 14.5px; }
+  .changes .card strong { display: block; margin-bottom: 4px; }
+  .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 18px; margin: 12px 0 20px; }
+  .spec dl { display: grid; grid-template-columns: 200px 1fr; gap: 0; margin: 0; }
+  .spec dt, .spec dd { padding: 8px 0; border-bottom: 1px solid var(--border); margin: 0; }
+  .spec dt { font-weight: 600; padding-right: 12px; }
+  .spec dl > :nth-last-child(-n+2) { border-bottom: none; }
+  .formula { font-family: ui-monospace, Menlo, monospace; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; overflow-x: auto; }
+  .mock { background: var(--surface); border: 1px dashed var(--border); border-radius: 10px; padding: 16px; margin: 12px 0 24px; }
+  .mock-title { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 10px; }
+  .dash { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .dash .tile { border: 1px solid var(--border); border-radius: 8px; padding: 12px; background: var(--bg); font-size: 14px; }
+  .dash .tile h5 { margin: 0 0 6px; font-size: 14px; }
+  .dash .big { font-size: 1.6rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .filters input, .filters select {
+    font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px;
+    background: var(--bg); color: var(--text); min-width: 0; flex: 1 1 160px;
+  }
+  /* Organigramme en arbre */
+  .tree { overflow-x: auto; padding-bottom: 8px; }
+  .tree ul { padding-top: 20px; position: relative; display: flex; justify-content: center; margin: 0; padding-left: 0; }
+  .tree li { list-style: none; text-align: center; position: relative; padding: 20px 6px 0; }
+  .tree li::before, .tree li::after { content: ""; position: absolute; top: 0; right: 50%; border-top: 1px solid var(--muted); width: 50%; height: 20px; }
+  .tree li::after { right: auto; left: 50%; border-left: 1px solid var(--muted); }
+  .tree li:only-child::before, .tree li:only-child::after { display: none; }
+  .tree li:only-child { padding-top: 0; }
+  .tree li:first-child::before, .tree li:last-child::after { border: 0 none; }
+  .tree li:last-child::before { border-right: 1px solid var(--muted); border-radius: 0 6px 0 0; }
+  .tree li:first-child::after { border-radius: 6px 0 0 0; }
+  .tree ul ul::before { content: ""; position: absolute; top: 0; left: 50%; border-left: 1px solid var(--muted); height: 20px; }
+  .tree > ul { padding-top: 0; }
+  .node { display: inline-block; border: 1px solid var(--border); background: var(--bg); border-radius: 8px; padding: 6px 10px; font-size: 13px; min-width: 110px; }
+  .node b { display: block; font-size: 13px; }
+  .node span { color: var(--muted); font-size: 12px; }
+  .node.dept { border-color: var(--accent); }
+  ol.steps li, ul li { margin: 4px 0; }
+  footer { margin-top: 64px; color: var(--muted); font-size: 13px; }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.toc { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); padding: 20px 16px; }
+    main { padding: 24px 16px 64px; }
+    .spec dl { grid-template-columns: 1fr; }
+    .spec dt { border-bottom: none; padding-bottom: 0; }
+    header.hero h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="Sommaire">
+    <div class="brand">Plateforme RH</div>
+    <ol>
+      <li><a href="#changements">Changements de cette version</a></li>
+      <li><a href="#vision">1. Vision produit</a></li>
+      <li><a href="#modules">2. Organisation en modules</a></li>
+      <li><a href="#mod-a">3. Module A — Gestion des employés</a></li>
+      <li><a href="#mod-b">3. Module B — Performance</a></li>
+      <li><a href="#mod-c">3. Module C — Évaluations manager</a></li>
+      <li><a href="#mod-d">3. Module D — Recrutement &amp; mobilité</a></li>
+      <li><a href="#mod-e">3. Module E — Primes</a></li>
+      <li><a href="#mod-f">3. Module F — Reporting</a></li>
+      <li><a href="#mod-g">3. Module G — Configuration</a></li>
+      <li><a href="#extras">4. Fonctionnalités complémentaires</a></li>
+      <li><a href="#ecrans">5. Inventaire des écrans</a></li>
+      <li><a href="#roles">6. Rôles et permissions</a></li>
+      <li><a href="#documentation">7. Documentation avant le code</a></li>
+      <li><a href="#mvp">8. MVP et releases</a></li>
+      <li><a href="#next">Prochaines étapes</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <h1>Plateforme RH &amp; Talent Intelligence — Guide de documentation produit</h1>
+      <p>Version révisée · octobre 2026</p>
+    </header>
+
+    <!-- ===================== CHANGEMENTS ===================== -->
+    <section id="changements">
+      <h2 style="border-top:none;margin-top:16px">Changements de cette version</h2>
+      <div class="changes">
+        <div class="card"><strong><span class="tag new">Nouveau</span>Espace employé</strong>Chaque employé dispose d’un accès à son propre tableau de bord : informations personnelles, son équipe, calendrier et solde de congés.</div>
+        <div class="card"><strong><span class="tag mod">Modifié</span>Organigramme</strong>Disponible sous deux formes : un tableau filtrable et un organigramme en arbre.</div>
+        <div class="card"><strong><span class="tag del">Supprimé</span>Auto-évaluation &amp; feedback ascendant</strong>Seul le manager évalue ses collaborateurs directs. Plus d’auto-évaluation, de feedback entre pairs, de 360° ni d’anonymat.</div>
+        <div class="card"><strong><span class="tag mod">Modifié</span>Recrutement externe</strong>Le poste est créé dans la plateforme ; la candidature et le processus de sélection externes se font sur une plateforme tierce (Keejob, LinkedIn…).</div>
+      </div>
+    </section>
+
+    <!-- ===================== 1. VISION ===================== -->
+    <section id="vision">
+      <h2>1. Définir la vision produit</h2>
+      <p>L’idée peut devenir une <strong>plateforme modulaire de gestion RH et de talent intelligence</strong> pour les startups, les PME et les grandes entreprises. L’objectif n’est pas de construire un énième logiciel de gestion du personnel, mais d’aider les entreprises à prendre de meilleures décisions concernant leurs collaborateurs : performance, mobilité interne, recrutement, développement, primes et planification des effectifs.</p>
+      <p>Abordez ce projet d’abord en tant que Product Manager et Business Analyst, puis en tant qu’architecte logiciel et développeur. Avant de choisir les technologies, définissez ce que fait le produit, qui l’utilise, ce à quoi chaque personne peut accéder et ce que l’entreprise y gagne.</p>
+
+      <h3>Concept produit</h3>
+      <p><strong>Type de produit :</strong> plateforme RH et de talent intelligence.</p>
+      <p><strong>Mission :</strong> transformer les données RH en décisions claires, cohérentes et actionnables, tout en gardant employés, managers et équipes RH alignés.</p>
+      <p>La plateforme doit être configurable et modulaire. Elle aidera les entreprises à gérer leurs employés, évaluer la performance de manière équitable, ouvrir des postes, favoriser la mobilité interne, produire des rapports RH exploitables et relier la performance au développement et aux rémunérations variables.</p>
+
+      <h3>Clients cibles potentiels</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Segment</th><th>Besoins typiques</th></tr></thead>
+        <tbody>
+          <tr><td>Startups — 10 à 50 employés</td><td>Dossiers employés, demandes de congés, évaluations de performance, et un outil RH abordable sans service RH dédié.</td></tr>
+          <tr><td>PME — 50 à 250 employés</td><td>Entretiens structurés, workflows managers, ouverture de postes, recommandations de primes et rapports de gestion.</td></tr>
+          <tr><td>Grandes organisations — 250+ employés</td><td>Permissions complexes, hiérarchies organisationnelles, pistes d’audit, politiques d’évaluation configurables et intégrations.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout"><p><strong>Recommandation :</strong> concevoir des fondations capables de passer à l’échelle, mais cibler d’abord les PME. Leurs processus sont suffisamment complexes pour justifier l’achat d’une solution, alors qu’un produit pensé d’emblée pour les grands comptes exigerait beaucoup plus de travail sur les intégrations, les revues de sécurité et la personnalisation.</p></div>
+    </section>
+
+    <!-- ===================== 2. MODULES ===================== -->
+    <section id="modules">
+      <h2>2. Organiser le produit en modules</h2>
+      <p>Évitez de traiter chaque fonctionnalité comme une application séparée. Construisez une plateforme unique avec des dossiers employés, des permissions, des workflows et un reporting partagés.</p>
+
+      <h3>Socle de la plateforme</h3>
+      <ul>
+        <li>Paramétrage de l’entreprise et structure organisationnelle</li>
+        <li>Dossiers employés</li>
+        <li>Rôles et permissions</li>
+        <li>Notifications</li>
+        <li>Workflows et circuits de validation</li>
+        <li>Journaux d’audit</li>
+        <li>Recherche, filtres et bases de reporting communs</li>
+      </ul>
+
+      <h3>Modules principaux</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Module</th><th>Périmètre</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Gestion des employés</strong></td><td>Employés, espace employé personnel, départements, congés, documents, organigramme (tableau + arbre), intégration et départ.</td></tr>
+          <tr><td><strong>Performance</strong></td><td>Objectifs, évaluations réalisées par le manager, scores, feedback, campagnes d’évaluation, plans de développement.</td></tr>
+          <tr><td><strong>Recrutement &amp; mobilité</strong></td><td>Création des postes, fiches de poste, mobilité interne et correspondance de compétences. Le processus de candidature externe est délégué à une plateforme tierce.</td></tr>
+          <tr><td><strong>Primes &amp; rémunération variable</strong></td><td>Règles de primes, budgets, recommandations, validations, historique.</td></tr>
+          <tr><td><strong>Analytique RH</strong></td><td>Effectifs, turnover, performance, tendances de congés, rapports sur les postes et les primes.</td></tr>
+          <tr><td><strong>Configuration</strong></td><td>Campagnes d’évaluation, politiques, pondérations, workflows, permissions, champs personnalisés.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Les modules partagent leurs données. Par exemple, le département, le manager, les compétences et l’historique de poste d’un employé sont définis une seule fois puis réutilisés dans les évaluations, la mobilité interne et le reporting.</p>
+    </section>
+
+    <!-- ===================== 3. MODULE A ===================== -->
+    <section id="mod-a">
+      <h2>3. Définir les fonctionnalités de chaque module</h2>
+      <p>Pour chaque module, documentez son objectif, ses utilisateurs, ses écrans, ses actions, ses règles métier et ses dépendances.</p>
+
+      <h3>Module A — Gestion des employés</h3>
+      <p><strong>Objectif :</strong> maintenir des dossiers employés fiables et centralisés, gérer le cycle de vie de l’employé, et donner à chaque employé un accès direct à ses propres informations.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Écran</th><th>Fonctionnalités principales</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag new">Nouveau</span><strong>Mon espace (tableau de bord employé)</strong></td><td>Informations personnelles, mon équipe, calendrier des congés, solde de congés, demandes en cours.</td></tr>
+          <tr><td>Annuaire des employés</td><td>Rechercher, filtrer, trier et exporter les données autorisées.</td></tr>
+          <tr><td>Fiche employé</td><td>Informations personnelles, poste, manager, département, compétences, statut d’emploi.</td></tr>
+          <tr><td>Historique professionnel</td><td>Promotions, mutations, changements de poste, postes précédents.</td></tr>
+          <tr><td>Gestion des congés</td><td>Soldes, demandes, validations, calendrier, historique.</td></tr>
+          <tr><td>Documents</td><td>Contrats, attestations, documents internes, rappels d’expiration.</td></tr>
+          <tr><td><span class="tag mod">Modifié</span><strong>Organigramme</strong></td><td>Deux vues : <em>tableau filtrable</em> et <em>arbre hiérarchique</em>. Départements, équipes, liens hiérarchiques.</td></tr>
+          <tr><td>Intégration / départ</td><td>Checklists, tâches assignées, remise des comptes et du matériel.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h4>Mon espace — tableau de bord de l’employé</h4>
+      <p>Chaque employé reçoit une permission d’accès à <strong>son propre compte</strong>. La page d’accueil de l’employé est un tableau de bord personnel qui regroupe :</p>
+      <ul>
+        <li><strong>Mes informations personnelles :</strong> identité, coordonnées, poste, département, manager, date d’entrée, type de contrat. Les champs autorisés par la politique de l’entreprise sont modifiables (ex. adresse, téléphone, contact d’urgence) ; les autres sont en lecture seule.</li>
+        <li><strong>Mon équipe :</strong> mon manager, mes collègues de la même équipe (nom, poste, coordonnées professionnelles), et leur présence / absence du jour sans le motif du congé.</li>
+        <li><strong>Calendrier des congés :</strong> mes congés validés et en attente, les jours fériés, et les absences de mon équipe (sans détail du type d’absence).</li>
+        <li><strong>Solde de congés :</strong> solde par type de congé (acquis, pris, en attente, restant) et bouton « Nouvelle demande ».</li>
+        <li><strong>Mes demandes :</strong> suivi des demandes de congés et de leur statut.</li>
+      </ul>
+
+      <div class="mock" aria-label="Maquette indicative du tableau de bord employé">
+        <div class="mock-title">Maquette indicative — Mon espace</div>
+        <div class="dash">
+          <div class="tile"><h5>Mes informations</h5>Amine Ben Salah<br><span style="color:var(--muted)">Développeur · Équipe Produit<br>Manager : S. Trabelsi</span></div>
+          <div class="tile"><h5>Solde de congés annuels</h5><div class="big">14,5 j</div><span style="color:var(--muted)">Acquis 22 · Pris 6 · En attente 1,5</span></div>
+          <div class="tile"><h5>Mon équipe</h5>6 membres · 1 absent aujourd’hui<br><span style="color:var(--muted)">Voir l’équipe →</span></div>
+          <div class="tile"><h5>Prochains congés</h5>23 → 27 déc. <span class="tag mod">En attente</span><br>Jours fériés : 1 janv.</div>
+        </div>
+      </div>
+
+      <div class="spec">
+        <dl>
+          <dt>ID écran</dt><dd>EMP-ESP-001</dd>
+          <dt>Nom</dt><dd>Mon espace — tableau de bord employé</dd>
+          <dt>Objectif</dt><dd>Permettre à l’employé de consulter ses informations, son équipe, son calendrier et son solde de congés sans passer par les RH.</dd>
+          <dt>Utilisateurs</dt><dd>Tous les employés (y compris managers et RH, pour leur propre compte).</dd>
+          <dt>Point d’entrée</dt><dd>Page d’accueil après connexion.</dd>
+          <dt>Actions</dt><dd>Modifier les champs personnels autorisés, créer une demande de congé, annuler une demande en attente, télécharger les documents autorisés.</dd>
+          <dt>Permissions</dt><dd><code>employee.self.view</code>, <code>employee.self.edit_allowed_fields</code>, <code>leave.self.request</code>, <code>team.members.view_basic</code>. Portée : propre dossier + informations de base de son équipe.</dd>
+          <dt>Règles</dt><dd>Les absences des collègues sont visibles sans le type ni le motif. Le salaire n’est affiché que si la politique le permet.</dd>
+          <dt>Événements d’audit</dt><dd>Champ personnel modifié, demande de congé créée / annulée, document téléchargé.</dd>
+        </dl>
+      </div>
+
+      <h4>Organigramme — deux vues</h4>
+      <p>L’organigramme repose sur les mêmes données (employé, manager, département, poste) et propose deux modes d’affichage, avec bascule entre les deux :</p>
+      <ol>
+        <li><strong>Vue tableau avec filtres :</strong> liste des employés avec colonnes nom, poste, département, manager, site, statut. Filtres par département, manager, site, poste et statut ; recherche texte ; tri par colonne ; export selon les permissions.</li>
+        <li><strong>Vue arbre (organigramme) :</strong> représentation hiérarchique de haut en bas. Nœuds dépliables / repliables, recherche d’une personne avec mise en évidence de son chemin hiérarchique, filtre par département pour afficher une branche, zoom et clic sur un nœud pour ouvrir la fiche.</li>
+      </ol>
+
+      <div class="mock">
+        <div class="mock-title">Maquette indicative — vue tableau avec filtres</div>
+        <div class="filters">
+          <input id="f-search" type="search" placeholder="Rechercher un nom ou un poste…" aria-label="Recherche">
+          <select id="f-dept" aria-label="Département"><option value="">Tous les départements</option><option>Direction</option><option>Produit</option><option>Ressources humaines</option><option>Finance</option></select>
+          <select id="f-mgr" aria-label="Manager"><option value="">Tous les managers</option><option>Leïla Haddad</option><option>Sami Trabelsi</option><option>Nour Gharbi</option></select>
+        </div>
+        <div class="table-wrap" style="margin:0"><table id="org-table">
+          <thead><tr><th>Nom</th><th>Poste</th><th>Département</th><th>Manager</th></tr></thead>
+          <tbody>
+            <tr><td>Leïla Haddad</td><td>Directrice générale</td><td>Direction</td><td>—</td></tr>
+            <tr><td>Sami Trabelsi</td><td>Responsable Produit</td><td>Produit</td><td>Leïla Haddad</td></tr>
+            <tr><td>Nour Gharbi</td><td>Responsable RH</td><td>Ressources humaines</td><td>Leïla Haddad</td></tr>
+            <tr><td>Karim Mansour</td><td>Responsable financier</td><td>Finance</td><td>Leïla Haddad</td></tr>
+            <tr><td>Amine Ben Salah</td><td>Développeur</td><td>Produit</td><td>Sami Trabelsi</td></tr>
+            <tr><td>Ines Jaziri</td><td>Designer UX</td><td>Produit</td><td>Sami Trabelsi</td></tr>
+            <tr><td>Yasmine Khelifi</td><td>Chargée RH</td><td>Ressources humaines</td><td>Nour Gharbi</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div class="mock">
+        <div class="mock-title">Maquette indicative — vue arbre</div>
+        <div class="tree">
+          <ul>
+            <li><div class="node dept"><b>Leïla Haddad</b><span>Directrice générale</span></div>
+              <ul>
+                <li><div class="node"><b>Sami Trabelsi</b><span>Produit</span></div>
+                  <ul>
+                    <li><div class="node"><b>Amine Ben Salah</b><span>Développeur</span></div></li>
+                    <li><div class="node"><b>Ines Jaziri</b><span>Designer UX</span></div></li>
+                  </ul>
+                </li>
+                <li><div class="node"><b>Nour Gharbi</b><span>RH</span></div>
+                  <ul><li><div class="node"><b>Yasmine Khelifi</b><span>Chargée RH</span></div></li></ul>
+                </li>
+                <li><div class="node"><b>Karim Mansour</b><span>Finance</span></div></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>Règles métier à définir</h4>
+      <ul>
+        <li>Chaque employé appartient à une entreprise et possède un statut d’emploi.</li>
+        <li>Un employé peut avoir un manager, un département, un intitulé de poste et un historique professionnel.</li>
+        <li>Chaque employé actif dispose d’un compte lui donnant accès à son espace personnel ; le compte est désactivé à son départ.</li>
+        <li>L’organigramme est calculé à partir des relations manager / département ; aucune saisie manuelle séparée. Une boucle hiérarchique (A manager de B, B manager de A) doit être refusée.</li>
+        <li>Les politiques de congés peuvent varier selon l’entreprise, le type de congé, le site ou la catégorie d’employé.</li>
+        <li>Les soldes de congés sont calculés selon les politiques configurées.</li>
+        <li>Un congé validé est reflété dans le calendrier de l’employé et dans son solde disponible.</li>
+        <li>Les documents sensibles ont un accès restreint et un historique de consultation.</li>
+      </ul>
+    </section>
+
+    <!-- ===================== 3. MODULE B ===================== -->
+    <section id="mod-b">
+      <h3>Module B — Gestion de la performance et scoring des employés</h3>
+      <p>Ce module peut devenir l’un des principaux éléments différenciants du produit. Ne vous limitez pas à un champ <code>employee_score</code> : construisez un système d’évaluation configurable.</p>
+      <div class="callout warn"><p><strong>Principe retenu :</strong> l’évaluation est réalisée <strong>uniquement par le manager direct</strong>. Il n’y a ni auto-évaluation, ni évaluation entre pairs, ni feedback ascendant, ni 360°. L’évaluateur est toujours identifié (pas d’anonymat).</p></div>
+
+      <h4>Capacités principales</h4>
+      <ol>
+        <li><strong>Configuration de l’évaluation :</strong> les RH définissent la campagne, les critères, l’échelle de notation, les pondérations, les employés éligibles et les échéances. L’évaluateur de chaque employé est son manager direct au moment de la campagne.</li>
+        <li><strong>Formulaires d’évaluation :</strong> le manager évalue chacun de ses collaborateurs directs. L’employé n’a pas de formulaire à remplir.</li>
+        <li><strong>Calcul du score :</strong> calcul des scores pondérés, gestion des critères manquants, validation des saisies, conservation de la version des règles de calcul utilisée pour chaque évaluation.</li>
+        <li><strong>Feedback et entretien :</strong> le manager consigne les points forts, les axes d’amélioration, son feedback et les actions convenues lors de l’entretien.</li>
+        <li><strong>Historique de performance :</strong> comparer les périodes, suivre les objectifs, suivre le développement et identifier l’évolution de la performance dans le temps.</li>
+      </ol>
+
+      <h4>Exemple : scoring configurable</h4>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Critère</th><th class="num">Pondération</th><th class="num">Note sur 5</th></tr></thead>
+        <tbody>
+          <tr><td>Objectifs atteints</td><td class="num">40 %</td><td class="num">4,2</td></tr>
+          <tr><td>Qualité du travail</td><td class="num">25 %</td><td class="num">4,0</td></tr>
+          <tr><td>Travail d’équipe</td><td class="num">20 %</td><td class="num">4,5</td></tr>
+          <tr><td>Développement professionnel</td><td class="num">15 %</td><td class="num">3,5</td></tr>
+        </tbody>
+      </table></div>
+      <p>Score pondéré :</p>
+      <div class="formula">(4,2 × 0,40) + (4,0 × 0,25) + (4,5 × 0,20) + (3,5 × 0,15) = 4,07</div>
+      <p>Le résultat final est de <strong>4,07 sur 5</strong>, soit 81,4 % du score maximal.</p>
+      <p>Laissez les entreprises configurer critères et pondérations, mais vérifiez que la somme des pondérations fait 100 %, définissez le traitement des critères manquants et empêchez toute modification arbitraire d’une évaluation finalisée.</p>
+      <div class="callout"><p><strong>Décision de conception importante :</strong> garder distincts le score global, les scores de compétences, l’atteinte des objectifs et le feedback du manager. Ils apportent des informations différentes et ne doivent pas être considérés comme interchangeables.</p></div>
+    </section>
+
+    <!-- ===================== 3. MODULE C ===================== -->
+    <section id="mod-c">
+      <h3>Module C — Évaluation des collaborateurs par le manager</h3>
+      <p>Intégré au module Performance, mais avec ses propres écrans et règles d’accès. Le seul flux d’évaluation est : <strong>manager → collaborateur direct</strong>.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Écran</th><th>Fonctionnalités</th></tr></thead>
+        <tbody>
+          <tr><td>Évaluations de mon équipe</td><td>Le manager évalue ses collaborateurs directs.</td></tr>
+          <tr><td>Évaluations réalisées</td><td>Le manager consulte les évaluations qu’il a soumises.</td></tr>
+          <tr><td>Mon évaluation</td><td>L’employé consulte l’évaluation finalisée faite par son manager, selon la politique de l’entreprise (lecture seule).</td></tr>
+          <tr><td>Entretien d’évaluation</td><td>Notes d’entretien, prise de connaissance par l’employé, actions de développement.</td></tr>
+          <tr><td>Statut de l’évaluation</td><td>Brouillon, soumise, en cours de validation, finalisée, prise de connaissance.</td></tr>
+        </tbody>
+      </table></div>
+      <p><span class="tag del">Supprimé</span> « Mon auto-évaluation », feedback entre pairs, feedback anonyme, feedback ascendant (employé → manager) et évaluations 360°.</p>
+
+      <h4>Options conservées</h4>
+      <ul>
+        <li>Prise de connaissance de l’évaluation finalisée par l’employé (accusé de lecture, sans valeur d’accord).</li>
+        <li>Rappels automatiques pour les évaluations en retard.</li>
+        <li>Validation optionnelle par les RH ou le N+2 avant finalisation.</li>
+      </ul>
+
+      <h4>Règles d’accès</h4>
+      <ul>
+        <li>Un manager ne peut évaluer que ses collaborateurs directs rattachés à lui pour la campagne en cours.</li>
+        <li>L’identité de l’évaluateur (le manager) est toujours visible : aucune notion d’anonymat n’est nécessaire.</li>
+        <li>L’employé ne voit son évaluation qu’une fois finalisée, et uniquement si la politique de l’entreprise le permet.</li>
+        <li>En cas de changement de manager pendant une campagne, la règle doit être documentée (ex. l’évaluation est réaffectée au nouveau manager, l’ancien manager peut laisser une note).</li>
+      </ul>
+    </section>
+
+    <!-- ===================== 3. MODULE D ===================== -->
+    <section id="mod-d">
+      <h3>Module D — Recrutement et mobilité interne</h3>
+      <p>Ce module couvre la <strong>création des postes</strong> et la <strong>mobilité interne</strong>. Le processus de candidature externe (dépôt de CV, présélection, entretiens, offres) se déroule sur une <strong>plateforme externe</strong> de type Keejob ou LinkedIn.</p>
+
+      <h4>Capacités principales</h4>
+      <ul>
+        <li><strong>Demande de poste et fiche de poste :</strong> créer un poste à partir de modèles réutilisables, définir les compétences requises et souhaitées, l’expérience, les responsabilités, la fourchette de salaire le cas échéant, le département, le manager recruteur et le circuit de validation.</li>
+        <li><strong>Correspondance de talents internes :</strong> comparer les exigences du poste aux compétences, à l’expérience, aux intérêts, aux qualifications et aux objectifs de développement des employés. Proposer des candidats internes potentiels avant tout recrutement externe.</li>
+        <li><strong>Candidatures internes :</strong> les employés éligibles consultent les postes ouverts en interne et postulent depuis la plateforme.</li>
+        <li><strong>Ouverture externe :</strong> le poste validé est publié sur une plateforme externe (Keejob, LinkedIn…). La plateforme RH conserve le lien vers l’offre publiée, la date de publication et le statut du poste (ouvert, pourvu, fermé). Les candidatures externes ne sont pas gérées dans la plateforme.</li>
+      </ul>
+
+      <h4>Workflow recommandé</h4>
+      <ol class="steps">
+        <li>Le manager crée une demande de poste.</li>
+        <li>La demande est validée et les exigences du poste sont définies.</li>
+        <li>La plateforme recherche des correspondances parmi les talents internes.</li>
+        <li>S’il existe des candidats internes adaptés, ils peuvent postuler et entrer dans le processus de sélection interne.</li>
+        <li>Si aucun candidat interne ne convient — ou si la politique autorise un recrutement en parallèle — le poste est publié sur une plateforme externe. Le recrutement externe est géré sur cette plateforme.</li>
+        <li>Une fois le candidat retenu, le RH clôture le poste dans la plateforme et crée le dossier du nouvel employé (déclenchant l’intégration).</li>
+      </ol>
+      <p>L’entreprise ne doit pas exclure automatiquement les candidats externes parce qu’un candidat interne correspond au profil. Laissez-la configurer les politiques « interne d’abord », les fenêtres de candidature, les critères d’éligibilité et les règles de validation. La correspondance aide à la décision ; elle ne prend pas de décision d’embauche de façon autonome.</p>
+      <p>Pour la première version, la correspondance de compétences peut reposer sur des règles transparentes et des critères pondérés. L’IA pourra plus tard aider à expliquer les correspondances, avec vérification humaine.</p>
+      <div class="callout"><p><strong>Hors périmètre :</strong> pipeline de candidats externes, stockage des CV externes, planification des entretiens externes, offres d’emploi. Une intégration (import du candidat retenu, publication automatique de l’offre) pourra être étudiée plus tard si la plateforme externe propose une API.</p></div>
+    </section>
+
+    <!-- ===================== 3. MODULE E ===================== -->
+    <section id="mod-e">
+      <h3>Module E — Primes et rémunération variable</h3>
+      <p>Le module de primes ne doit pas simplement multiplier le score de l’employé par un pourcentage. Il nécessite une politique configurable et un circuit de validation.</p>
+      <h4>Fonctionnalités recommandées</h4>
+      <ul>
+        <li>Configuration de la politique de primes par entreprise, département, grade ou campagne d’évaluation.</li>
+        <li>Multiplicateur de performance individuelle.</li>
+        <li>Multiplicateurs de performance entreprise et département, le cas échéant.</li>
+        <li>Base éligible (salaire ou montant fixe).</li>
+        <li>Plafonds budgétaires et suivi des allocations.</li>
+        <li>Recommandations des managers et revue RH.</li>
+        <li>Validation par la Finance et autorisation finale.</li>
+        <li>Gestion des exceptions et justifications documentées.</li>
+        <li>Historique et reporting des primes.</li>
+      </ul>
+      <p>Exemple de formule :</p>
+      <div class="formula">Prime = Base éligible × Taux de prime cible × Multiplicateur de performance</div>
+      <p>Si la base éligible est de 3 000 unités monétaires, le taux cible de 10 % et le multiplicateur validé de 1,2, la prime suggérée est de 360 unités monétaires.</p>
+      <p>Ce n’est qu’un exemple. Chaque entreprise doit définir ses propres règles d’éligibilité, d’arrondi, de plafonds et ses obligations légales ou contractuelles.</p>
+      <div class="callout"><p><strong>Séparer la recommandation du paiement.</strong> Un manager peut recommander une prime, les RH valider l’éligibilité, et la Finance ou un approbateur habilité confirmer le montant. L’application ne doit pas laisser entendre qu’une recommandation calculée a déjà été versée.</p></div>
+    </section>
+
+    <!-- ===================== 3. MODULE F ===================== -->
+    <section id="mod-f">
+      <h3>Module F — Reporting RH et de gestion</h3>
+      <p>Faites du reporting un module à part entière, pas une simple page de graphiques.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Catégorie</th><th>Exemples d’indicateurs et fonctionnalités</th></tr></thead>
+        <tbody>
+          <tr><td>Effectifs</td><td>Effectif, embauches, départs, répartition par département, ancienneté, changements organisationnels.</td></tr>
+          <tr><td>Performance</td><td>Distribution des scores, taux de complétion des évaluations managers, atteinte des objectifs, besoins de développement, comparaison entre périodes.</td></tr>
+          <tr><td>Congés et absences</td><td>Utilisation des congés, absences à venir, soldes restants, tendances, dans le respect des règles de confidentialité.</td></tr>
+          <tr><td>Postes et mobilité</td><td>Postes ouverts, délai pour pourvoir un poste, candidatures internes, mobilités internes réalisées, postes publiés en externe, écarts de compétences.</td></tr>
+          <tr><td>Primes et budget</td><td>Budget des primes, montants proposés vs validés, répartition par département, exceptions.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Chaque rapport doit définir son indicateur, son mode de calcul, sa période, ses filtres, son public autorisé et son comportement d’export. Cela évite que deux départements interprètent différemment un même indicateur.</p>
+      <p>Par exemple, le turnover doit avoir une définition documentée, précisant comment les départs et l’effectif moyen sont calculés.</p>
+    </section>
+
+    <!-- ===================== 3. MODULE G ===================== -->
+    <section id="mod-g">
+      <h3>Module G — Configuration de l’entreprise</h3>
+      <p>Ce module détermine le comportement de l’application pour chaque client.</p>
+      <ul>
+        <li>Profil de l’entreprise, sites, départements et grades.</li>
+        <li>Statuts d’employé et types de contrat.</li>
+        <li>Types de congés, règles d’acquisition, jours fériés et circuits de validation.</li>
+        <li>Campagnes d’évaluation, critères, pondérations et échelles.</li>
+        <li>Champs personnels modifiables par l’employé dans « Mon espace ».</li>
+        <li>Politiques de primes, populations éligibles et circuits de validation.</li>
+        <li>Modèles de fiches de poste et plateformes externes de publication utilisées.</li>
+        <li>Préférences de notification et échéances des workflows.</li>
+        <li>Champs personnalisés et paramètres de rapports.</li>
+        <li>Rôles, permissions, conservation des données et paramètres d’audit.</li>
+      </ul>
+      <div class="callout"><p><strong>Principe de conception :</strong> la configuration plutôt que le développement spécifique. Deux entreprises doivent pouvoir utiliser des échelles d’évaluation ou des règles de congés différentes sans bases de code séparées.</p></div>
+    </section>
+
+    <!-- ===================== 4. EXTRAS ===================== -->
+    <section id="extras">
+      <h2>4. Autres fonctionnalités qui rendent le produit plus vendable</h2>
+      <p>Priorisez les fonctionnalités selon le problème métier qu’elles résolvent, plutôt que d’ajouter de l’IA simplement parce que le produit en intègre.</p>
+      <h3>1. Objectifs et plans de développement — priorité haute</h3>
+      <p>Le manager définit avec l’employé des objectifs, jalons, preuves et actions de développement. Cela relie l’évaluation à des progrès concrets plutôt qu’à un simple score.</p>
+      <h3>2. Assistant RH IA</h3>
+      <p>Usages possibles : résumer des rapports RH autorisés, rédiger des fiches de poste, résumer le feedback des managers, répondre à des questions à partir de données validées par l’entreprise. Inclure les sources, les contrôles d’accès et une revue humaine.</p>
+      <h3>3. Automatisation des workflows</h3>
+      <p>Relancer automatiquement les managers évaluateurs, notifier les approbateurs, signaler les évaluations incomplètes, escalader les demandes en retard et générer des rapports planifiés.</p>
+      <h3>4. Référentiel de compétences et parcours de carrière</h3>
+      <p>Associer les compétences des employés aux postes futurs, identifier les écarts, suggérer des plans de formation et rendre la mobilité interne plus concrète.</p>
+      <h3>5. Confiance, équité et auditabilité</h3>
+      <p>Tracer les modifications de scores et de politiques, détecter les incohérences de notation entre managers et restreindre l’accès aux données sensibles.</p>
+      <h3>6. Intégrations et import de données</h3>
+      <p>Importer les données employés depuis des tableurs et se connecter à la paie, aux calendriers, aux fournisseurs d’identité, aux plateformes d’emploi (Keejob, LinkedIn) et aux SIRH existants lorsque la demande client le justifie.</p>
+      <h3>7. Assistant de mise en place</h3>
+      <p>Aider l’administrateur à importer les employés, configurer les départements, choisir une politique de congés, créer un modèle d’évaluation, affecter les managers et inviter les employés. Un produit puissant mais difficile à configurer est plus difficile à vendre aux petites entreprises.</p>
+    </section>
+
+    <!-- ===================== 5. ÉCRANS ===================== -->
+    <section id="ecrans">
+      <h2>5. Préparer l’inventaire des écrans</h2>
+      <p>Avant de concevoir l’interface, créez un catalogue d’écrans. Il pourra ensuite devenir des wireframes, des user stories et des tickets de développement. Il s’agit d’un inventaire de départ, pas d’une obligation de tout construire dès la première version.</p>
+
+      <h3>Plateforme et accès</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Écran</th><th>Objectif / fonctionnalités</th></tr></thead>
+        <tbody>
+          <tr><td>Connexion / mot de passe oublié</td><td>Connexion, récupération d’accès, authentification multifacteur optionnelle.</td></tr>
+          <tr><td>Assistant de création d’entreprise</td><td>Créer l’entreprise, les sites, les départements et les paramètres initiaux.</td></tr>
+          <tr><td>Tableau de bord principal</td><td>Tâches personnalisées, synthèses, raccourcis selon le rôle.</td></tr>
+          <tr><td>Notifications</td><td>Actions en attente, rappels, alertes.</td></tr>
+          <tr><td>Administration des utilisateurs</td><td>Inviter, attribuer des rôles, désactiver un accès.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Gestion des employés</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Écran</th><th>Objectif / fonctionnalités</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag new">Nouveau</span>Mon espace</td><td>Informations personnelles, mon équipe, calendrier et solde de congés, mes demandes.</td></tr>
+          <tr><td>Annuaire des employés</td><td>Recherche, filtres, tri, exports autorisés.</td></tr>
+          <tr><td>Fiche employé</td><td>Informations contractuelles, manager, compétences, documents.</td></tr>
+          <tr><td>Créer / modifier un employé</td><td>Ajouter ou mettre à jour un dossier employé.</td></tr>
+          <tr><td><span class="tag mod">Modifié</span>Organigramme — vue tableau</td><td>Liste filtrable (département, manager, site, poste, statut), recherche, tri, export.</td></tr>
+          <tr><td><span class="tag mod">Modifié</span>Organigramme — vue arbre</td><td>Arbre hiérarchique dépliable, recherche avec chemin hiérarchique, filtre par branche, zoom.</td></tr>
+          <tr><td>Tableau de bord des congés</td><td>Soldes, calendrier d’équipe, demandes.</td></tr>
+          <tr><td>Détail d’une demande de congé</td><td>Dates, contrôles de politique, valider ou refuser.</td></tr>
+          <tr><td>Documents et cycle de vie</td><td>Accès aux documents, tâches d’intégration et de départ.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Performance</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Écran</th><th>Objectif / fonctionnalités</th></tr></thead>
+        <tbody>
+          <tr><td>Vue d’ensemble performance</td><td>Campagnes, taux de complétion, statuts.</td></tr>
+          <tr><td>Création de campagne</td><td>Dates, employés éligibles, affectation automatique au manager direct.</td></tr>
+          <tr><td>Création de modèle d’évaluation</td><td>Critères, échelles, pondérations, consignes.</td></tr>
+          <tr><td>Espace d’évaluation de l’équipe (manager)</td><td>Évaluations et feedback du manager sur ses collaborateurs directs.</td></tr>
+          <tr><td>Détail de l’évaluation</td><td>Scores, commentaires du manager, validation.</td></tr>
+          <tr><td>Mon évaluation (employé)</td><td>Consultation en lecture seule de l’évaluation finalisée et prise de connaissance.</td></tr>
+          <tr><td>Entretien et plan de développement</td><td>Notes d’entretien, objectifs, prochaines étapes.</td></tr>
+          <tr><td>Historique de performance</td><td>Évaluations précédentes et progression.</td></tr>
+        </tbody>
+      </table></div>
+      <p><span class="tag del">Supprimé</span> « Mon auto-évaluation ».</p>
+
+      <h3>Postes et mobilité</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Écran</th><th>Objectif / fonctionnalités</th></tr></thead>
+        <tbody>
+          <tr><td>Liste des postes</td><td>Postes en brouillon, en validation, ouverts en interne, publiés en externe, pourvus, fermés.</td></tr>
+          <tr><td>Création de demande de poste</td><td>Poste, exigences, budget, validation.</td></tr>
+          <tr><td>Modèles de fiches de poste</td><td>Descriptions réutilisables et versions.</td></tr>
+          <tr><td>Correspondance de talents internes</td><td>Correspondance de compétences, écarts, éligibilité, candidatures internes.</td></tr>
+          <tr><td>Postes ouverts en interne (employé)</td><td>Consulter les postes ouverts et postuler.</td></tr>
+          <tr><td>Publication externe</td><td>Plateforme choisie (Keejob, LinkedIn…), lien vers l’offre, date de publication, clôture du poste.</td></tr>
+        </tbody>
+      </table></div>
+      <p><span class="tag del">Supprimé</span> Pipeline de candidats externes, fiche candidat externe, entretiens et sélection externes — gérés sur la plateforme externe.</p>
+
+      <h3>Primes et reporting</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Écran</th><th>Objectif / fonctionnalités</th></tr></thead>
+        <tbody>
+          <tr><td>Création de politique de primes</td><td>Éligibilité, formules, plafonds, validations.</td></tr>
+          <tr><td>Planification des primes</td><td>Montants proposés, budget, répartition.</td></tr>
+          <tr><td>Espace de validation des primes</td><td>Revue, gestion des exceptions, autorisation.</td></tr>
+          <tr><td>Tableau de bord analytique RH</td><td>Effectifs, congés, turnover, performance.</td></tr>
+          <tr><td>Générateur de rapports</td><td>Indicateurs, filtres, période, public.</td></tr>
+          <tr><td>Détail et export de rapport</td><td>Tableau de données, graphique, téléchargements autorisés.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Configuration et gouvernance</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Écran</th><th>Objectif / fonctionnalités</th></tr></thead>
+        <tbody>
+          <tr><td>Paramètres de l’entreprise</td><td>Sites, départements, grades, champs personnalisés.</td></tr>
+          <tr><td>Paramètres des congés</td><td>Types de congés, acquisition, calendriers des jours fériés.</td></tr>
+          <tr><td>Création de workflows</td><td>Étapes de validation, conditions, escalade.</td></tr>
+          <tr><td>Matrice rôles et permissions</td><td>Rôles, permissions, périmètre organisationnel.</td></tr>
+          <tr><td>Journal d’audit</td><td>Qui a modifié quoi, quand, et si pertinent pourquoi.</td></tr>
+          <tr><td>Données et confidentialité</td><td>Conservation, demandes d’accès, contrôles d’export.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>Ce qu’il faut documenter pour chaque écran</h3>
+      <p>Utilisez ce modèle pour chaque écran :</p>
+      <div class="spec">
+        <dl>
+          <dt>ID écran</dt><dd>PERF-REV-001</dd>
+          <dt>Nom</dt><dd>Espace d’évaluation manager</dd>
+          <dt>Objectif</dt><dd>Permettre aux managers d’évaluer leurs collaborateurs directs.</dd>
+          <dt>Utilisateurs principaux</dt><dd>Managers, avec supervision limitée des RH.</dd>
+          <dt>Point d’entrée</dt><dd>Performance → Mon équipe → Sélectionner un employé.</dd>
+          <dt>Informations affichées</dt><dd>Nom de l’employé, poste, période d’évaluation, objectifs, critères, scores, commentaires, statut.</dd>
+          <dt>Actions</dt><dd>Enregistrer un brouillon, soumettre l’évaluation, demander une clarification aux RH, consulter l’historique autorisé.</dd>
+          <dt>Règles de validation</dt><dd>Critères obligatoires renseignés ; score dans l’échelle autorisée ; soumission possible uniquement pendant la campagne.</dd>
+          <dt>Permissions</dt><dd>Le manager n’accède qu’à ses collaborateurs directs.</dd>
+          <dt>États</dt><dd>Chargement, vide, brouillon, soumise, en retard, finalisée, erreur.</dd>
+          <dt>Événements d’audit</dt><dd>Brouillon créé, score modifié, soumise, finalisée.</dd>
+          <dt>Dépendances</dt><dd>Dossiers employés, campagne, modèle de scoring, workflow.</dd>
+          <dt>Critères d’acceptation</dt><dd>Conditions précises prouvant que l’écran fonctionne correctement.</dd>
+        </dl>
+      </div>
+      <p>Ce niveau de documentation a plus de valeur qu’une simple liste de pages : il donne au designer et au développeur une compréhension claire de ce qu’il faut construire.</p>
+    </section>
+
+    <!-- ===================== 6. RÔLES ===================== -->
+    <section id="roles">
+      <h2>6. Définir les rôles et les permissions</h2>
+      <p>Ne confondez pas un rôle applicatif et un intitulé de poste. Une personne dont le poste est « Responsable RH » peut avoir certaines permissions dans une entreprise et d’autres ailleurs.</p>
+
+      <h3>Rôles initiaux suggérés</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Rôle</th><th>Responsabilités principales</th></tr></thead>
+        <tbody>
+          <tr><td>Opérateur de la plateforme</td><td>Exploite la plateforme SaaS ; aucun accès courant aux données RH des clients.</td></tr>
+          <tr><td>Propriétaire de l’entreprise</td><td>Gère l’abonnement, les administrateurs et les paramètres de haut niveau.</td></tr>
+          <tr><td>Administrateur de l’entreprise</td><td>Configure la structure, les politiques, les utilisateurs et les permissions.</td></tr>
+          <tr><td>Responsable RH</td><td>Gère les employés, les politiques de congés, les campagnes d’évaluation, les postes et les rapports RH dans son périmètre.</td></tr>
+          <tr><td>Chargé RH / Recruteur</td><td>Traite les tâches de cycle de vie assignées, la mobilité interne et la publication des postes sur les plateformes externes.</td></tr>
+          <tr><td>Manager</td><td>Gère ses collaborateurs directs : validation des congés, évaluations, rapports d’équipe.</td></tr>
+          <tr><td>Approbateur Finance / Primes</td><td>Consulte les informations de primes et de budget autorisées et valide les opérations assignées.</td></tr>
+          <tr><td><span class="tag mod">Modifié</span>Employé</td><td>Accède à son espace personnel (informations, équipe, calendrier et solde de congés), demande des congés, consulte son évaluation finalisée et postule aux postes internes.</td></tr>
+          <tr><td>Auditeur / Lecteur</td><td>Consulte les dossiers et preuves d’audit autorisés sans modifier les données.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Certains rôles peuvent être cumulés dans les petites entreprises. Par exemple, l’administrateur d’une startup peut aussi assurer les fonctions RH. Gardez les permissions séparées dans la conception, même si une seule personne détient les deux rôles.</p>
+
+      <h3>Utiliser un contrôle d’accès basé sur les permissions</h3>
+      <p>Combinez le <strong>contrôle d’accès basé sur les rôles (RBAC)</strong> avec un périmètre de données et des règles contextuelles.</p>
+      <p>Une permission doit être plus précise que « peut accéder à la performance ». Par exemple : <code>performance.review.submit</code></p>
+      <p>L’application doit ensuite vérifier si l’utilisateur peut soumettre <em>cette</em> évaluation pour <em>cet</em> employé, dans <em>cette</em> entreprise, à <em>cette</em> étape du workflow.</p>
+      <p>Définissez les permissions selon plusieurs dimensions :</p>
+      <ul>
+        <li><strong>Action :</strong> consulter, créer, modifier, supprimer, valider, exporter, configurer.</li>
+        <li><strong>Ressource :</strong> employé, demande de congé, évaluation, poste, prime, rapport.</li>
+        <li><strong>Périmètre :</strong> propre dossier, propre équipe, équipe gérée, département, entreprise, plateforme.</li>
+        <li><strong>Conditions :</strong> campagne ouverte, manager direct de l’employé, bonne étape de validation, dossier non finalisé.</li>
+      </ul>
+
+      <h3>Matrice de permissions initiale</h3>
+      <p>Ce sont des valeurs par défaut larges, à affiner pour chaque action et périmètre.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Ressource / action</th><th>Admin. entreprise</th><th>Responsable RH</th><th>Manager</th><th>Employé</th><th>Auditeur</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag new">Nouveau</span>Mon espace (tableau de bord personnel)</td><td>Son propre compte</td><td>Son propre compte</td><td>Son propre compte</td><td>Son propre compte : infos, équipe, calendrier, solde</td><td>Son propre compte</td></tr>
+          <tr><td>Dossiers employés</td><td>Administration complète selon la politique</td><td>Gérer les dossiers autorisés</td><td>Consulter ses collaborateurs directs</td><td>Consulter son propre dossier</td><td>Lecture du périmètre autorisé</td></tr>
+          <tr><td>Modifier un employé</td><td>Oui, selon la politique</td><td>Oui, selon la politique</td><td>Champs limités</td><td>Ses champs personnels autorisés</td><td>Non</td></tr>
+          <tr><td><span class="tag new">Nouveau</span>Organigramme (tableau et arbre)</td><td>Toute l’entreprise</td><td>Toute l’entreprise</td><td>Toute l’entreprise (infos de base)</td><td>Toute l’entreprise (nom, poste, département, manager)</td><td>Lecture si autorisé</td></tr>
+          <tr><td>Consulter le salaire</td><td>Sur autorisation explicite</td><td>Uniquement si autorisé</td><td>Uniquement si accordé explicitement</td><td>Le sien, si la politique le permet</td><td>Uniquement si accordé explicitement</td></tr>
+          <tr><td>Politique de congés</td><td>Configurer</td><td>Administrer dans son périmètre</td><td>Non, sauf autorisation</td><td>Non</td><td>Lecture si autorisé</td></tr>
+          <tr><td>Demande de congé</td><td>Administrer selon permissions</td><td>Administrer dans son périmètre</td><td>Valider les demandes de son équipe</td><td>Soumettre et consulter les siennes</td><td>Lecture du périmètre autorisé</td></tr>
+          <tr><td>Solde de congés</td><td>Accès politique et audit</td><td>Gérer dans son périmètre</td><td>Consulter son équipe si autorisé</td><td>Consulter le sien</td><td>Lecture du périmètre autorisé</td></tr>
+          <tr><td>Calendrier des absences d’équipe</td><td>Toute l’entreprise</td><td>Dans son périmètre</td><td>Son équipe, avec type de congé</td><td>Son équipe, sans type ni motif</td><td>Lecture si autorisé</td></tr>
+          <tr><td>Modèle d’évaluation</td><td>Configurer</td><td>Configurer</td><td>Non, sauf autorisation</td><td>Non</td><td>Lecture si autorisé</td></tr>
+          <tr><td><span class="tag mod">Modifié</span>Saisie d’évaluation</td><td>Administrer le workflow</td><td>Administrer le workflow</td><td>Évaluer ses collaborateurs directs</td><td>Aucune (pas d’auto-évaluation)</td><td>Lecture si autorisé</td></tr>
+          <tr><td>Score de performance final</td><td>Accès autorisé</td><td>Accès autorisé</td><td>Ses collaborateurs directs</td><td>Le sien une fois finalisé, selon la politique</td><td>Lecture du périmètre autorisé</td></tr>
+          <tr><td>Demande de poste</td><td>Configurer</td><td>Gérer dans son périmètre</td><td>Créer / demander si autorisé</td><td>Consulter les postes internes éligibles et postuler</td><td>Lecture du périmètre validé</td></tr>
+          <tr><td><span class="tag mod">Modifié</span>Publication externe du poste</td><td>Configurer les plateformes</td><td>Publier et clôturer</td><td>Consulter le statut</td><td>Non</td><td>Lecture si autorisé</td></tr>
+          <tr><td>Politique de primes</td><td>Configurer</td><td>Configurer si autorisé</td><td>Recommander si autorisé</td><td>Non</td><td>Lecture du périmètre validé</td></tr>
+          <tr><td>Validation des primes</td><td>Uniquement si assigné explicitement</td><td>Uniquement si assigné explicitement</td><td>Recommander ou valider l’étape assignée</td><td>Aucune autorité par défaut</td><td>Lecture des preuves si autorisé</td></tr>
+          <tr><td>Tableau de bord RH</td><td>Indicateurs de la plateforme par défaut</td><td>Rapports RH de son périmètre</td><td>Rapports d’équipe</td><td>Données personnelles uniquement (Mon espace)</td><td>Rapports autorisés</td></tr>
+          <tr><td>Journal d’audit</td><td>Événements de sécurité</td><td>Événements de l’entreprise dans son périmètre</td><td>Limité ou aucun</td><td>Ses propres événements d’accès si proposé</td><td>Lecture du périmètre assigné</td></tr>
+        </tbody>
+      </table></div>
+      <p><span class="tag del">Supprimé</span> Ligne « Dossiers candidats » : les candidats externes ne sont pas gérés dans la plateforme.</p>
+
+      <h3>Règles de sécurité à documenter dès le départ</h3>
+      <ol>
+        <li>Chaque client est un tenant séparé ; les données d’une entreprise ne doivent jamais fuiter vers une autre.</li>
+        <li>L’autorisation est vérifiée côté serveur pour chaque opération protégée, pas seulement en masquant des boutons dans l’interface.</li>
+        <li>L’espace employé ne renvoie que les données du compte connecté : l’identifiant de l’employé est déduit de la session, jamais du paramètre de la requête.</li>
+        <li>Restreindre l’accès aux salaires, documents sensibles, détails de primes et évaluations.</li>
+        <li>Tenir des journaux d’audit pour les modifications importantes des évaluations, permissions, politiques et validations de primes.</li>
+        <li>Définir ce qui se passe lorsqu’un employé change de département, de manager ou quitte l’entreprise (désactivation de son accès à « Mon espace »).</li>
+        <li>Préciser les politiques de conservation, suppression, export, rectification et droit d’accès selon la loi applicable.</li>
+        <li>Appliquer le principe du moindre privilège par défaut et exiger une autorisation explicite pour tout accès exceptionnel.</li>
+      </ol>
+      <p>Documentez également la séparation des tâches. Par exemple, un utilisateur ne doit pas valider automatiquement sa propre proposition de prime simplement parce qu’il a un rôle de manager ou d’administrateur.</p>
+    </section>
+
+    <!-- ===================== 7. DOCUMENTATION ===================== -->
+    <section id="documentation">
+      <h2>7. Rédiger la documentation avant le code</h2>
+      <p>Créez un petit référentiel de documentation produit avec des livrables clairs : fichiers dans Git, Notion ou l’outil de documentation de votre choix.</p>
+      <h3>Structure de documentation suggérée</h3>
+<pre><code>docs-plateforme-rh/
+├── 01-definition-produit/
+│   ├── vision-produit
+│   ├── clients-cibles
+│   ├── proposition-de-valeur
+│   ├── modele-economique
+│   └── perimetre-produit
+├── 02-exigences-metier/
+│   ├── processus-metier
+│   ├── exigences-fonctionnelles
+│   ├── regles-metier
+│   ├── hypotheses-et-contraintes
+│   └── criteres-acceptation
+├── 03-modules-et-ecrans/
+│   ├── specifications-modules
+│   ├── inventaire-ecrans
+│   ├── specifications-ecrans/
+│   ├── navigation
+│   └── parcours-utilisateurs
+├── 04-utilisateurs-et-securite/
+│   ├── catalogue-roles
+│   ├── matrice-permissions
+│   ├── perimetre-donnees
+│   ├── regles-confidentialite
+│   └── exigences-audit
+├── 05-workflows-et-donnees/
+│   ├── diagrammes-workflows
+│   ├── glossaire-entites
+│   ├── modele-donnees-conceptuel
+│   ├── transitions-etats
+│   └── integrations          (dont plateformes d’emploi externes)
+└── 06-qualite-et-livraison/
+    ├── exigences-non-fonctionnelles
+    ├── scenarios-de-test
+    ├── plan-de-release
+    ├── registre-des-risques
+    ├── roadmap
+    └── hypotheses-deploiement</code></pre>
+
+      <h3>Ordre de rédaction recommandé</h3>
+      <ol>
+        <li><strong>Vision produit et modèle économique :</strong> définir le client, les problèmes résolus et pourquoi il paierait.</li>
+        <li><strong>Exigences et périmètre :</strong> écrire ce que le produit doit faire et ce qui est explicitement exclu de la première version (ex. évaluation 360°, pipeline de candidats externes).</li>
+        <li><strong>Modules et workflows :</strong> décrire chaque processus métier de bout en bout.</li>
+        <li><strong>Rôles et permissions :</strong> établir qui peut effectuer chaque action sur quels dossiers.</li>
+        <li><strong>Inventaire des écrans et wireframes :</strong> relier chaque exigence aux écrans qui la portent.</li>
+        <li><strong>Règles métier et modèle de données :</strong> définir les informations à stocker, calculer, valider et auditer.</li>
+        <li><strong>Exigences non fonctionnelles :</strong> sécurité, confidentialité, performance, disponibilité, accessibilité, maintenabilité.</li>
+        <li><strong>Critères d’acceptation du MVP :</strong> conditions à remplir avant de considérer une fonctionnalité comme terminée.</li>
+      </ol>
+    </section>
+
+    <!-- ===================== 8. MVP ===================== -->
+    <section id="mvp">
+      <h2>8. Rendre le produit réalisable : choisir un MVP</h2>
+      <p>La vision complète est ambitieuse. Construire tous les modules d’un coup demanderait trop de travail avant de savoir quelles fonctionnalités les clients valorisent le plus. Commencez par un produit ciblé qui démontre un workflow RH complet.</p>
+
+      <h3>Release 1 — MVP</h3>
+      <ul>
+        <li>Mise en place multi-tenant : espaces d’entreprise séparés, paramètres, invitations des utilisateurs.</li>
+        <li>Espace employé : informations personnelles, mon équipe, calendrier et solde de congés.</li>
+        <li>Annuaire des employés : fiches, départements, managers, historique professionnel de base.</li>
+        <li>Organigramme : vue tableau filtrable et vue arbre.</li>
+        <li>Gestion des congés : types de congés, demandes, validation, soldes, historique.</li>
+        <li>Évaluations configurables : une campagne, critères personnalisés, scoring pondéré, évaluation par le manager direct uniquement.</li>
+        <li>Feedback de base : feedback du manager, consultation et prise de connaissance par l’employé.</li>
+        <li>Rapports essentiels : effectifs, synthèse des congés, complétion des évaluations, vue d’ensemble de la performance.</li>
+        <li>Sécurité et audit : permissions par rôle, isolation des données, historique des changements importants.</li>
+      </ul>
+
+      <h3>Release 2 — Postes et primes</h3>
+      <ul>
+        <li>Demandes de poste et fiches de poste réutilisables.</li>
+        <li>Mobilité interne et correspondance de compétences de base.</li>
+        <li>Publication des postes sur plateformes externes (lien et statut ; candidatures gérées à l’extérieur).</li>
+        <li>Recommandations de primes et circuits de validation.</li>
+        <li>Objectifs et plans de développement.</li>
+        <li>Reporting avancé et rapports planifiés.</li>
+      </ul>
+
+      <h3>Release 3 — Intelligence et fonctionnalités entreprise</h3>
+      <ul>
+        <li>Extraction assistée par IA des compétences à partir des profils internes.</li>
+        <li>Synthèses de rapports RH générées par IA, avec contrôle des permissions et traçabilité des sources.</li>
+        <li>Analytique avancée des effectifs et générateur de rapports configurable.</li>
+        <li>Intégrations SIRH, paie, identité, calendrier et API des plateformes d’emploi (Keejob, LinkedIn) si disponibles.</li>
+        <li>Workflows d’évaluation plus avancés (validation N+2, calibration entre managers).</li>
+        <li>Gouvernance et configuration supplémentaires au niveau de l’organisation.</li>
+      </ul>
+      <p>Ces découpages sont provisoires. Si les entretiens clients révèlent que la mobilité interne est leur principal problème, vous pouvez la prioriser plus tôt.</p>
+
+      <h3>Qu’est-ce qui rend le MVP commercialement viable ?</h3>
+      <p>Avant de développer la plateforme complète, validez ces questions auprès de professionnels RH, de managers ou de fondateurs de startups :</p>
+      <ul>
+        <li>Comment gèrent-ils aujourd’hui les dossiers employés et les congés ?</li>
+        <li>Comment les évaluations sont-elles réalisées et qu’est-ce qui pose problème dans le processus actuel ?</li>
+        <li>Comment les évaluations sont-elles utilisées pour les promotions ou les primes ?</li>
+        <li>Ont-ils un problème récurrent de mobilité interne ou de visibilité sur les compétences ?</li>
+        <li>Quelles plateformes de recrutement externes utilisent-ils déjà ?</li>
+        <li>Quels logiciels paient-ils actuellement, et que leur manque-t-il ?</li>
+        <li>Qui a l’autorité pour acheter un outil RH, et quel est le budget ou le processus de validation ?</li>
+      </ul>
+      <p>Essayez d’obtenir au moins un client potentiel prêt à tester le produit sur des workflows réels. L’intérêt pour l’idée est utile ; la volonté de piloter ou de payer est une validation plus forte.</p>
+    </section>
+
+    <!-- ===================== NEXT ===================== -->
+    <section id="next">
+      <h2>Prochaines étapes immédiates</h2>
+      <ol>
+        <li>Rédiger la vision produit, le client cible, la proposition de valeur et le périmètre initial.</li>
+        <li>Valider les principaux irritants auprès de clients potentiels avant d’étendre la liste des fonctionnalités.</li>
+        <li>Confirmer les modules du MVP et lister explicitement ce qui n’est pas inclus dans la première version.</li>
+        <li>Documenter les workflows principaux : espace employé, gestion des employés, validation des congés et évaluation par le manager.</li>
+        <li>Finaliser le catalogue des rôles et la matrice des permissions.</li>
+        <li>Créer l’inventaire des écrans et les spécifications détaillées des écrans du MVP.</li>
+        <li>Définir les règles métier, les entités de données, les exigences d’audit et les critères d’acceptation.</li>
+        <li>Seulement ensuite passer aux wireframes, à l’architecture technique, à la conception de la base de données et à la planification du développement.</li>
+      </ol>
+      <div class="callout ok"><p><strong>Principe fondamental :</strong> construire un produit RH configurable autour de workflows métier réels, de permissions fiables, de règles claires et d’une valeur client mesurable — pas seulement une collection d’écrans.</p></div>
+    </section>
+
+    <footer>Plateforme RH &amp; Talent Intelligence — guide de documentation produit.</footer>
+  </main>
+</div>
+
+<script>
+  (function () {
+    var search = document.getElementById('f-search');
+    var dept = document.getElementById('f-dept');
+    var mgr = document.getElementById('f-mgr');
+    var rows = document.querySelectorAll('#org-table tbody tr');
+    function apply() {
+      var q = search.value.trim().toLowerCase();
+      rows.forEach(function (r) {
+        var c = r.children;
+        var ok = (!q || r.textContent.toLowerCase().indexOf(q) !== -1)
+          && (!dept.value || c[2].textContent === dept.value)
+          && (!mgr.value || c[3].textContent === mgr.value);
+        r.style.display = ok ? '' : 'none';
+      });
+    }
+    [search, dept, mgr].forEach(function (el) { el.addEventListener('input', apply); });
+  })();
+</script>
+</body>
+</html>
